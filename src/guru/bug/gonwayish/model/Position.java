@@ -4,7 +4,12 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
-public class Position {
+/**
+ * @author Dimitrijs Fedotovs <a href="http://www.bug.guru">www.bug.guru</a>
+ * @version 1.0
+ * @since 1.0
+ */
+public final class Position {
     public static final int WIDTH = 10;
     public static final int HEIGHT = 10;
     private int column;

@@ -1,19 +1,26 @@
 package guru.bug.gonwayish.model;
 
-public abstract class AbstractCell implements Runnable {
+/**
+ * @author Dimitrijs Fedotovs <a href="http://www.bug.guru">www.bug.guru</a>
+ * @version 1.0
+ * @since 1.0
+ */
+public class CellHome implements Runnable {
     private Field field;
-    private boolean alive;
+    private Position position;
+    private Cell cell;
     private long birthtime;
     private double viability;
 
-    void setField(Field field) {
+    final void init(Field field, Position position) {
         this.field = field;
+        this.position = position;
     }
 
     @Override
     public final void run() {
         while (field.isRunning()) {
-            if (alive) {
+            if (cell != null) {
                 checkViability();
             } else if (canBeBorn()) {
                 birth();
@@ -24,8 +31,7 @@ public abstract class AbstractCell implements Runnable {
 
     private void checkViability() {
         double v = calculateViability();
-        double vt = calculateViabilityThreshold();
-        if (v < vt) {
+        if (v <= 0) {
             death();
         } else {
             this.viability = v;
@@ -51,15 +57,23 @@ public abstract class AbstractCell implements Runnable {
         }
     }
 
-    public long getAge() {
+    public final long getAge() {
         return alive ? System.currentTimeMillis() - birthtime : -1;
     }
 
-    public boolean isAlive() {
+    public final boolean isAlive() {
         return alive;
     }
 
-    protected abstract double calculateViabilityThreshold();
-    protected abstract double calculateViability();
-    protected abstract boolean canBeBorn();
+    public final double getViability() {
+        return viability;
+    }
+
+    public final Position getPosition() {
+        return position;
+    }
+
+    public final Field getField() {
+        return field;
+    }
 }

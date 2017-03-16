@@ -2,7 +2,7 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
-<BorderPane fx:controller="guru.bug.gonwayish.Controller" xmlns:fx="http://javafx.com/fxml">
+<BorderPane fx:controller="guru.bug.gonwayish.GameController" xmlns:fx="http://javafx.com/fxml">
     <center>
         <TabPane fx:id="tabPane">
             <Tab fx:id="editTab" text="Edit" closable="false">
