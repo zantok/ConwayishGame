@@ -26,6 +26,9 @@ public final class Position {
     }
 
     private Position(int column, int row) {
+        if (!isValid(column, row)) {
+            throw new IllegalArgumentException("Column or row is invalid: " + column + ", " + row);
+        }
         this.column = column;
         this.row = row;
     }
@@ -66,5 +69,13 @@ public final class Position {
     @Override
     public int hashCode() {
         return Objects.hash(column, row);
+    }
+
+    @Override
+    public String toString() {
+        return "Position{" +
+                "column=" + column +
+                ", row=" + row +
+                '}';
     }
 }

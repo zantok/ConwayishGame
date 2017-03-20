@@ -2,6 +2,8 @@ package guru.bug.gonwayish.model;
 
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -11,28 +13,48 @@ import java.util.stream.Collectors;
  * @since 1.0
  */
 public class Field {
-    private final Map<Position, CellHome> fieldMap;
+    private static final ExecutorService executor = Executors.newCachedThreadPool(r -> {
+        Thread t = new Thread(r);
+        t.setDaemon(true);
+        return t;
+    });
+    private Map<Position, Cell> fieldMap;
     private boolean running;
 
-    public Field(Function<Position, ? extends CellHome> cellFactory) {
-        fieldMap = Position.all().stream()
-                .map(p -> {
-                    CellHome result = cellFactory.apply(p);
-                    result.init(this, p);
-                    return result;
-                })
-                .collect(Collectors.toMap(CellHome::getPosition, Function.identity()));
+    public Map<Position, CellInfo> getSnapshot() {
+        return fieldMap.values().stream()
+                .map(Cell::getCellInfo)
+                .collect(Collectors.toMap(CellInfo::getPosition, Function.identity()));
     }
 
-    public boolean isRunning() {
+    public void start(Function<Position, Boolean> initState) {
+        if (running) {
+            throw new IllegalStateException("Already running");
+        }
+        setRunning(true);
+        fieldMap = Position.all().stream()
+                .map(p -> {
+                    boolean alive = initState.apply(p);
+                    Cell result = new Cell(this, p, alive);
+                    executor.submit(result);
+                    return result;
+                })
+                .collect(Collectors.toMap(Cell::getPosition, Function.identity()));
+    }
+
+    public void stop() {
+        setRunning(false);
+    }
+
+    private void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public synchronized boolean isRunning() {
         return running;
     }
 
-    public Map<Position, CellHome> getFieldMap() {
-        return fieldMap;
-    }
-
-    public Set<CellHome> findAround(Position pos) {
+    public Set<Cell> findAround(Position pos) {
         return pos.around().stream()
                 .map(fieldMap::get)
                 .collect(Collectors.toSet());

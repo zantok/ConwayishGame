@@ -5,11 +5,11 @@
 <BorderPane fx:controller="guru.bug.gonwayish.GameController" xmlns:fx="http://javafx.com/fxml">
     <center>
         <TabPane fx:id="tabPane">
-            <Tab fx:id="editTab" text="Edit" closable="false">
-                <GridPane fx:id="gameTableEdit" hgap="3" vgap="3"/>
+            <Tab fx:id="editTab" text="Edit" closable="false" onSelectionChanged="#selectionChanged">
+                <GridPane fx:id="gameTableEdit" stylesheets="@grid.css"/>
             </Tab>
-            <Tab fx:id="runTab" text="Run" closable="false" onSelectionChanged="#selectionChanged">
-                <GridPane fx:id="gameTableRun" hgap="3" vgap="3"/>
+            <Tab fx:id="runTab" text="Run" closable="false">
+                <GridPane fx:id="gameTableRun" stylesheets="@grid.css"/>
             </Tab>
         </TabPane>
     </center>
