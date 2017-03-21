@@ -15,9 +15,9 @@ public class Cell implements Runnable {
     Cell(Field field, Position position, boolean initialAlive) {
         this.field = field;
         this.position = position;
+        this.size = 0;
 
         if (initialAlive) {
-            size = 0;
             birthtime = System.currentTimeMillis();
         } else {
             birthtime = -1;
@@ -35,6 +35,7 @@ public class Cell implements Runnable {
     @Override
     public void run() {
         while (field.isRunning()) {
+            pause();
             long cur = System.currentTimeMillis();
             long age = cur - birthtime;
 
@@ -47,7 +48,6 @@ public class Cell implements Runnable {
             double p = (age - LIFE_PERIOD / 2.0) / LIFE_PERIOD * Math.PI;
             double s = Math.cos(p);
             setSize(s);
-            pause();
         }
         System.out.println("Cell " + position + " finished");
     }

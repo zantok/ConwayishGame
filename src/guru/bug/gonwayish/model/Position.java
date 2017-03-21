@@ -46,7 +46,7 @@ public final class Position {
         for (int r = row - 1; r <= row + 1; r++) {
             for (int c = column - 1; c <= column + 1; c++) {
                 if (isValid(c, r) && (c != column || r != row)) {
-                    result.add(new Position(column, row));
+                    result.add(new Position(c, r));
                 }
             }
         }
@@ -54,7 +54,7 @@ public final class Position {
     }
 
     private boolean isValid(int c, int r) {
-        return r >= 0 || r < HEIGHT || c >= 0 || c < WIDTH;
+        return r >= 0 && r < HEIGHT && c >= 0 && c < WIDTH;
     }
 
     @Override
