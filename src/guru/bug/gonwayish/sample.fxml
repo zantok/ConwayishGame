@@ -2,14 +2,14 @@
 <?import javafx.scene.control.TabPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
-<BorderPane fx:controller="guru.bug.gonwayish.GameController" xmlns:fx="http://javafx.com/fxml">
+<BorderPane fx:controller="guru.bug.gonwayish.GameController" xmlns:fx="http://javafx.com/fxml" stylesheets="@grid.css">
     <center>
         <TabPane fx:id="tabPane">
             <Tab fx:id="editTab" text="Edit" closable="false" onSelectionChanged="#selectionChanged">
-                <GridPane fx:id="gameTableEdit" stylesheets="@grid.css"/>
+                <GridPane fx:id="gameTableEdit"/>
             </Tab>
             <Tab fx:id="runTab" text="Run" closable="false">
-                <GridPane fx:id="gameTableRun" stylesheets="@grid.css"/>
+                <GridPane fx:id="gameTableRun"/>
             </Tab>
         </TabPane>
     </center>
